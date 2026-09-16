@@ -1,0 +1,81 @@
+
+### Guía de Despliegue y Ejecución Local: BlinkWeb
+
+Este documento detalla los pasos secuenciales necesarios para compilar, configurar y ejecutar la plataforma BlinkWeb en un entorno de desarrollo local.
+
+#### 1. Requisitos Previos del Sistema
+
+Para garantizar la compatibilidad y el correcto arranque de la arquitectura, el equipo anfitrión debe contar con el siguiente software instalado:
+
+* **Node.js**: Versión 18.0 o superior recomendada, junto con su gestor de paquetes **npm**.
+
+
+* **MySQL Server**: Versión 8.0 o superior, en ejecución.
+
+
+
+#### 2. Preparación de la Base de Datos
+
+Antes de arrancar el servidor, es necesario inicializar la capa de persistencia:
+
+1. Arrancar el servicio de MySQL en el equipo.
+2. Crear una base de datos dedicada al proyecto (por ejemplo, `blinkweb_db`).
+3. Ejecutar o importar el *script* SQL proporcionado junto al código fuente para volcar la estructura relacional (tablas `usuarios`, `portafolios` e `imagenes`).
+
+#### 3. Configuración de Variables de Entorno (.env)
+
+El servidor requiere credenciales y claves de acceso para operar. Se debe crear un archivo con el nombre `.env` exactamente en la raíz del directorio del servidor (`/blinkweb-backend`). El archivo debe contener la siguiente estructura de variables:
+
+```text
+# Configuración del Servidor
+PORT=3000
+
+# Conexión a la Base de Datos MySQL
+DB_HOST=localhost
+DB_USER=tu_usuario_mysql
+DB_PASSWORD=tu_contraseña_mysql
+DB_NAME=blinkweb_db
+DB_PORT=3306
+
+# Seguridad
+JWT_SECRET=introduce_aqui_una_cadena_de_texto_aleatoria
+
+# Inteligencia Artificial
+GEMINI_API_KEY=introduce_aqui_la_clave_de_api_de_google
+
+```
+
+*(Nota técnica: Para evaluar la funcionalidad de generación automática, es estrictamente necesario insertar una clave válida obtenida desde Google AI Studio en la variable `GEMINI_API_KEY`).*
+
+#### 4. Inicialización del Servidor (Backend)
+
+Abrir una terminal o consola de comandos y ejecutar los siguientes pasos para levantar la API REST:
+
+1. Acceder a la carpeta del servidor: `cd blinkweb-backend`.
+
+
+2. Instalar las dependencias de Node: `npm install`.
+
+
+3. Ejecutar el entorno de desarrollo: `npm run dev`.
+*El terminal indicará que el backend está a la escucha de peticiones en el puerto 3000*.
+
+
+#### 5. Inicialización del Cliente (Frontend)
+
+Sin cerrar la consola anterior, abrir una **segunda terminal** para levantar la interfaz de usuario en React:
+
+1. Acceder a la carpeta del cliente: `cd blinkweb-frontend`.
+
+
+2. Instalar las dependencias de interfaz: `npm install`.
+
+
+3. Arrancar el empaquetador Vite: `npm run dev`.
+*El terminal mostrará que el frontend se ha desplegado correctamente*.
+
+
+
+#### 6. Acceso y Verificación
+
+Con ambos procesos en ejecución simultánea, abrir un navegador web e introducir la dirección local indicada por Vite (generalmente `http://localhost:5173`). La plataforma cargará la pantalla de inicio, estando completamente operativa para registrar un nuevo perfil y testear el flujo de generación de portafolios.
